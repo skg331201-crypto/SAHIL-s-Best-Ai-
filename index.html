@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAHIL AI</title>
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 18px 20px 22px;
+  background: radial-gradient(circle at 50% 35%, #123663 0%, #091d3a 50%, #051324 100%);
+  color: #f0f9ff;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.header-area {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(125, 211, 252, 0.25);
+  padding-bottom: 12px;
+}
+.title-top {
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #7dd3fc;
+}
+#menuBtn {
+  font-size: 24px;
+  padding: 7px 15px;
+  border-radius: 12px;
+  border: 1px solid #38bdf8;
+  background: #102a4c;
+  color: #ffffff;
+  cursor: pointer;
+}
+#drawer {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #091a33;
+  border: 1px solid #38bdf8;
+  text-align: left;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+.center-area {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+}
+.hero-h1 {
+  font-size: 46px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin: 0 0 8px;
+  color: #e0f2fe;
+}
+.sub-p {
+  color: #9bc0dc;
+  font-size: 15px;
+  margin: 0 0 32px;
+}
+#sCircle {
+  width: 185px;
+  height: 185px;
+  line-height: 185px;
+  border-radius: 50%;
+  margin: 0 auto 30px;
+  font-size: 72px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0ea5e9, #10b981);
+  box-shadow: 0 0 38px rgba(56, 189, 248, 0.48), 0 0 70px rgba(16, 185, 129, 0.2);
+  cursor: pointer;
+  user-select: none;
+}
+#sCircle:active {
+  transform: scale(0.96);
+}
+#talkBtn {
+  padding: 16px 34px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4);
+  cursor: pointer;
+}
+#talkBtn:active {
+  transform: scale(0.96);
+}
+#statusText {
+  max-width: 620px;
+  margin: 28px auto 0;
+  font-size: 20px;
+  color: #bae6fd;
+  line-height: 1.5;
+  min-height: 30px;
+}
+.bottom-bar {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(125, 211, 252, 0.16);
+  font-size: 13px;
+  color: #88b2d1;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+#cmdBox {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #38bdf8;
+  background: #061224;
+  color: #ffffff;
+  font-size: 15px;
+}
+#sendBtn, #clearBtn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #38bdf8;
+  color: #041322;
+  font-weight: bold;
+  cursor: pointer;
+}
+#histList {
+  margin-top: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.h-item {
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+</style>
+</head>
+<body>
+
+<div class="header-area">
+  <div class="top">
+    <span class="title-top">SAHIL AI</span>
+    <button type="button" id="menuBtn">&#9776;</button>
+  </div>
+
+  <div id="drawer">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <strong>Question &amp; Answer History</strong>
+      <button type="button" id="clearBtn">Clear</button>
+    </div>
+    <div class="row">
+      <input type="text" id="cmdBox" placeholder="Type command or question...">
+      <button type="button" id="sendBtn">Send</button>
+    </div>
+    <div id="histList">No history yet.</div>
+  </div>
+</div>
+
+<div class="center-area">
+  <h1 class="hero-h1">SAHIL AI</h1>
+  <p class="sub-p">Personal English Voice Assistant</p>
+
+  <div id="sCircle">S</div>
+  <button type="button" id="talkBtn">&#127908; Talk to SAHIL</button>
+
+  <p id="statusText">Welcome to Sahil personal assistant, how may I help you?</p>
+</div>
+
+<div class="bottom-bar">
+  Tap <strong>S</strong> or <strong>Talk to SAHIL</strong> &bull; Open <strong>&#9776;</strong> for History &amp; Typing
+</div>
+
+<script>
+var WELCOME = "Welcome to Sahil personal assistant, how may I help you?";
+var histData = [];
+var spokenWelcome = false;
+
+try {
+  histData = JSON.parse(localStorage.getItem("sahil_simple_hist") || "[]");
+} catch (e) {}
+
+function showHist() {
+  var box = document.getElementById("histList");
+  if (!histData.length) {
+    box.innerHTML = "<div class='h-item'>No history yet.</div>";
+    return;
+  }
+  var s = "";
+  for (var i = 0; i < histData.length; i++) {
+    s += "<div class='h-item'><b>" + histData[i].who + ":</b> " + histData[i].msg + "</div>";
+  }
+  box.innerHTML = s;
+  box.scrollTop = box.scrollHeight;
+}
+
+function saveHist(who, msg) {
+  histData.push({ who: who, msg: msg });
+  if (histData.length > 60) histData = histData.slice(-60);
+  try {
+    localStorage.setItem("sahil_simple_hist", JSON.stringify(histData));
+  } catch (e) {}
+  showHist();
+}
+
+function bolna(txt, logIt) {
+  document.getElementById("statusText").innerText = txt;
+  if (logIt) saveHist("Sahil", txt);
+  if ("speechSynthesis" in window) {
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(txt);
+      u.lang = "en-US";
+      window.speechSynthesis.speak(u);
+      spokenWelcome = true;
+    } catch (e) {}
+  }
+}
+
+function tryMath(text) {
+  var expr = text
+    .replace(/calculate|what is|what's|solve/gi, "")
+    .replace(/plus/gi, "+")
+    .replace(/minus/gi, "-")
+    .replace(/times|multiplied by/gi, "*")
+    .replace(/divided by/gi, "/")
+    .replace(/[^0-9+\-*/().\s]/g, "")
+    .trim();
+  if (!expr || !/\d/.test(expr)) return null;
+  try {
+    var val = Function('"use strict"; return (' + expr + ")")();
+    if (typeof val === "number" && isFinite(val)) {
+      return Number.isInteger(val) ? val : val.toFixed(2);
+    }
+  } catch (e) {}
+  return null;
+}
+
+function fetchInfo(q) {
+  var topic = q
+    .replace(/^(who is|who was|what is|what are|what was|where is|when was|why is|how does|how to|tell me about|explain)\s+/i, "")
+    .replace(/[?.!]+$/g, "")
+    .trim() || q;
+  var sUrl = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + encodeURIComponent(topic) + "&format=json&origin=*";
+  return fetch(sUrl)
+    .then(function(r) { return r.json(); })
+    .then(function(sd) {
+      var title = sd && sd.query && sd.query.search && sd.query.search[0] ? sd.query.search[0].title : null;
+      if (!title) return null;
+      return fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(title)).then(function(res) { return res.json(); });
+    })
+    .then(function(sum) {
+      if (sum && sum.extract) {
+        return sum.extract.split(". ").slice(0, 2).join(". ");
+      }
+      return null;
+    })
+    .catch(function() { return null; });
+}
+
+function replyCmd(q) {
+  var clean = String(q || "").trim();
+  if (!clean) return;
+  saveHist("You", clean);
+  var low = clean.toLowerCase();
+
+  var mathAns = tryMath(low);
+  if (mathAns !== null) {
+    bolna("The answer is " + mathAns, true);
+    return;
+  }
+
+  if (low.indexOf("time") !== -1) {
+    bolna("Current time is " + new Date().toLocaleTimeString(), true);
+  } else if (low.indexOf("day") !== -1) {
+    bolna("Today is " + new Date().toLocaleDateString("en-US", { weekday: "long" }), true);
+  } else if (low.indexOf("year") !== -1) {
+    bolna("Current year is " + new Date().getFullYear(), true);
+  } else if (low.indexOf("date") !== -1 || low.indexOf("today") !== -1) {
+    bolna("Today is " + new Date().toDateString(), true);
+  } else if (low.indexOf("hello") !== -1 || low.indexOf("hi") === 0 || low.indexOf("how are you") !== -1 || low.indexOf("how you doing") !== -1) {
+    bolna("I am doing well, Sahil! How may I help you?", true);
+  } else if (low.indexOf("who are you") !== -1) {
+    bolna("I am Sahil AI, your personal assistant speaking right here.", true);
+  } else if (low.indexOf("joke") !== -1) {
+    bolna("Why did the smartphone need glasses? Because it lost its contacts.", true);
+  } else if (low.indexOf("fact") !== -1) {
+    bolna("Honey never spoils and can last for thousands of years.", true);
+  } else {
+    document.getElementById("statusText").innerText = "Thinking...";
+    fetchInfo(clean).then(function(info) {
+      if (info) {
+        bolna(info, true);
+      } else {
+        bolna("I heard: " + clean + ". How else can I help you?", true);
+      }
+    });
+  }
+}
+
+function startMic() {
+  spokenWelcome = true;
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    bolna("Mic not supported here. Use menu type box.", false);
+    return;
+  }
+  var rec = new SR();
+  rec.lang = "en-US";
+  rec.onstart = function() {
+    document.getElementById("statusText").innerText = "Listening...";
+  };
+  rec.onresult = function(e) {
+    var txt = e.results[0][0].transcript;
+    replyCmd(txt);
+  };
+  rec.onerror = function(e) {
+    document.getElementById("statusText").innerText = "Mic error: " + e.error;
+  };
+  rec.start();
+}
+
+document.getElementById("menuBtn").onclick = function() {
+  var d = document.getElementById("drawer");
+  d.style.display = (d.style.display === "block") ? "none" : "block";
+  showHist();
+};
+
+document.getElementById("clearBtn").onclick = function() {
+  histData = [];
+  try { localStorage.removeItem("sahil_simple_hist"); } catch (e) {}
+  showHist();
+};
+
+document.getElementById("sendBtn").onclick = function() {
+  var inp = document.getElementById("cmdBox");
+  if (inp.value.trim()) {
+    replyCmd(inp.value.trim());
+    inp.value = "";
+  }
+};
+
+document.getElementById("sCircle").onclick = startMic;
+document.getElementById("talkBtn").onclick = startMic;
+
+document.body.addEventListener("click", function() {
+  if (!spokenWelcome) {
+    bolna(WELCOME, false);
+  }
+}, { once: true });
+
+window.onload = function() {
+  showHist();
+  bolna(WELCOME, false);
+};
+</script>
+</body>
+</html>
